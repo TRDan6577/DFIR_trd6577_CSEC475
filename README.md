@@ -19,6 +19,7 @@ This Powershell script gets a large amount of artifacts from a computer. Some of
 
 ### Usage
 `Get-Artifacts.ps1 [-Csv] [-CsvPath C:\desired\path\to\csv] [-Email] [-Computers computer1,computer2,computer3]`
+
 By default, Get-Artifacts (run without any arguments) outputs the artifacts collected from the local computer onto the screen
 * -Csv tells the script to output the artifacts in a CSV file
 * -CsvPath specifies where to place the CSV file. By default, -CsvPath is set to the directory the script is placed in
