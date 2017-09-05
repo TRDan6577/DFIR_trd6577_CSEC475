@@ -10,7 +10,7 @@ Purpose: Retreives users/ADinfo/services/processes/networkConnections/and more f
 
 param([string]$CsvPath = (Get-Item -Path ".\" -Verbose).FullName,  # Default path is location of cmdlet
       [switch]$Csv = $false,   # By default, do not write results to a csv file
-      [string]$computers,      # The list of computers to get artifacts from
+      [string]$Computers,      # The list of computers to get artifacts from
       [switch]$Email = $false) # By default, do not send the csv file as an email
 
 function collectArtifacts ($CsvPath, $Csv, $email, $emailCredentials, $emailRecipient, $remoteCredentials, $computer){
